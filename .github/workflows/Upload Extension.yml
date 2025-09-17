@@ -15,7 +15,7 @@ jobs:
                 npm install @vscode/vsce
 
             - name: Package Extension
-              run: node_modules/@vscode/vsce/vsce package
+              run: node_modules/@vscode/vsce/vsce package --allow-missing-repository
 
             - name: Upload extension file
               uses: actions/upload-artifact@v4
