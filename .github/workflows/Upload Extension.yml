@@ -1,0 +1,22 @@
+name: Upload Extension
+
+on: [push, pull_request]
+
+jobs:
+    Upload:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Check repository
+              uses: actions/checkout@v4
+
+            - name: Package Extension
+              uses: HaaLeo/publish-vscode-extension@main
+              with:
+                pat: ${{ secrets.GITHUB_TOKEN }}
+                dryRun: true
+
+            - name: Upload extension file
+              uses: actions/upload-artifact@v4
+              with: 
+                path: our-vscode-extension-*.vsix
+                retention-days: 90
