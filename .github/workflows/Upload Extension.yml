@@ -21,4 +21,5 @@ jobs:
               uses: actions/upload-artifact@v4
               with: 
                 path: our-vscode-extension-*.vsix
+                name: our-vscode-extension
                 retention-days: 90
