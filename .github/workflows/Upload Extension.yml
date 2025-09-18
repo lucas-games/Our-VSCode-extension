@@ -3,32 +3,27 @@ name: Upload Extension
 on: [push, pull_request]
 
 jobs:
-  download-repository:
+  download-repo-install-depends:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Download Repo
+        uses: actions/checkout@v4
 
-  install-dependencies:
-    runs-on: ubuntu-latest
-    needs: download-repository
-    steps:
-      - run: |
-          npm install
-          npm install @vscode/vsce
+      - name: Install Dependencies
+        run: |
+          npm i
+          npm i @vscode/vsce
 
-  package:
+  package-upload:
     runs-on: ubuntu-latest
-    needs: install-dependencies
+    needs: download-repo-install-depends
     steps:
-      - run:
-          node_modules/@vscode/vsce/vsce package --allow-missing-repository
+      - name: Package Extension
+        run: node_modules/@vscode/vsce/vsce package --allow-missing-repository
 
-  upload:
-    runs-on: ubuntu-latest
-    needs: package
-    steps:
-      - uses: actions/upload-artifact@v4
+      - name: Upload extension as artifact
+        uses: actions/upload-artifact@v4
         with:
-          name: <whatever you want it to be>
-          path: <name of extension>-*.vsix # replace name of extension with the name property in package.json
+          name: Our VSCode Extension 
+          path: our-vscode-extension-*.vsix 
           retention-days: 90
